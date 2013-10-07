@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.*;
+import android.widget.Toast;
 
 public class KrenolActivity extends Activity {
     //  constants
@@ -32,6 +33,7 @@ public class KrenolActivity extends Activity {
     float mScreenCellSide = 0.0f;
 
     GameBoard mBoard = null;
+    int mCurMove = 0;
 
     byte mCurPlayer = GameBoard.CELL_WHITE;
 
@@ -58,6 +60,7 @@ public class KrenolActivity extends Activity {
 	}
 
     public void startGame(int gutterW, int gutterH) {
+        mCurMove = 0;
         mCurPlayer = GameBoard.CELL_WHITE;
         mBoard = new GameBoard(gutterW*2 + MIDDLE_SIDE, gutterH*2 + MIDDLE_SIDE);
     }
@@ -163,13 +166,22 @@ public class KrenolActivity extends Activity {
                 cellX < mBoard.mBoardW && cellY < mBoard.mBoardH &&
                 mBoard.getCell(cellX, cellY) == GameBoard.CELL_EMPTY) {
                 mBoard.setCell(cellX, cellY, mCurPlayer);
+                mCurMove++;
                 if (mCurPlayer == GameBoard.CELL_BLACK) {
                     mCurPlayer = GameBoard.CELL_WHITE;
                 } else {
                     mCurPlayer = GameBoard.CELL_BLACK;
                 }
-                if (mBoard.getWinner() != GameBoard.CELL_EMPTY) {
-                    startGame(3, 3);
+                byte winner = mBoard.getWinner();
+                if (winner != GameBoard.CELL_EMPTY) {
+
+                    String caption = "The winner is ";
+                    caption += winner == GameBoard.CELL_BLACK ? "black!" : "white!";
+
+                    Toast toast = Toast.makeText(getApplicationContext(), caption, Toast.LENGTH_LONG);
+                    toast.show();
+
+                    //startGame(3, 3);
                 }
             }
             return true;

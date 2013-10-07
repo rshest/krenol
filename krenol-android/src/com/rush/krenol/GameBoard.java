@@ -37,7 +37,11 @@ public class GameBoard {
             //  traverse the cells in the row
             for (int i = 0; i < mBoardW; i++) {
                 byte c = mCells[curCell];
-                score += (c == GameBoard.CELL_EMPTY ? 0 : (c == GameBoard.CELL_WHITE) ? 1 : -1);
+                if (c == GameBoard.CELL_EMPTY) {
+                    score = 0;
+                } else {
+                    score += (c == GameBoard.CELL_WHITE) ? 1 : -1;
+                }
                 if (Math.abs(score) == NUM_TO_WIN) {
                     return (score > 0) ? GameBoard.CELL_WHITE : GameBoard.CELL_BLACK;
                 }
@@ -52,14 +56,18 @@ public class GameBoard {
             //  traverse the cells in the column
             for (int j = 0; j < mBoardH; j++) {
                 byte c = mCells[curCell];
-                score += (c == GameBoard.CELL_EMPTY ? 0 : (c == GameBoard.CELL_WHITE) ? 1 : -1);
+                if (c == GameBoard.CELL_EMPTY) {
+                    score = 0;
+                } else {
+                    score += (c == GameBoard.CELL_WHITE) ? 1 : -1;
+                }
                 if (Math.abs(score) == NUM_TO_WIN) return (score > 0) ? GameBoard.CELL_WHITE : GameBoard.CELL_BLACK;
                 curCell += mBoardW;
             }
         }
 
         //  diagonals south-east
-
+        //for (int i = mBoardH - NUM_TO_WIN)
 
         //  diagonals south-west
 
